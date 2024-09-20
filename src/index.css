@@ -1,0 +1,31 @@
+:root {
+  /* Defining Colors */
+  --primary: #2c768c;
+  --primary-lighter: #289591;
+  --secondary: #b2a429;
+  --display: #a1a888;
+  --accent: #cccccc;
+  --gray: #999999;
+  --dark-gray: #2e2d29;
+  --black: #000000;
+  --white: #ffffff;
+
+  /* Defining Fonts */
+  --primary-font: Arial, Helvetica, sans-serif;
+
+  /* Setting Default Font */
+  font-family: var(--primary-font);
+
+  /* Font and Text Stylization */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
