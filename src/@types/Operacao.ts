@@ -1,8 +1,8 @@
-export enum Operacao {
-  soma = "+",
-  subtracao = "-",
-  multiplicacao = "*",
-  divisao = "/",
-  raiz_quadrada = "**0.5",
-  percentual = "%",
+export enum Operação {
+  SOMA,
+  SUBTRAÇÃO,
+  MULTIPLICAÇÃO,
+  DIVISÃO,
+  RAIZ_QUADRADA,
+  PERCENTUAL,
 }

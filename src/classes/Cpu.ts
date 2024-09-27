@@ -1,22 +1,27 @@
 import { Controle } from "../@types/Controle";
 import { Digito } from "../@types/Digito";
-import { Operacao } from "../@types/Operacao";
+import { ICpu } from "../@types/ICpu";
+import { Operação } from "../@types/Operacao";
+import Teclado from "./Teclado";
 import Tela from "./Tela";
 
-export default class Cpu {
+export default class Cpu implements ICpu {
   tela: Tela;
+  teclado: Teclado;
 
-  constructor() {
-    this.tela = new Tela();
+  constructor(tela: Tela, teclado: Teclado) {
+    this.tela = tela;
+    this.teclado = teclado;
+    this.teclado.events();
   }
 
-  receberDigito(digito: Digito) {
-    this.tela.mostrarDigito(digito);
+  recebaDigito(digito: Digito) {
+    this.tela.mostre(digito);
   }
 
-  receberOperacao(operacao: Operacao) {}
+  recebaOperacao(operacao: Operação) {}
 
-  receberControle(controle: Controle) {}
+  recebaControle(controle: Controle) {}
 
-  reiniciar() {}
+  reinicie() {}
 }

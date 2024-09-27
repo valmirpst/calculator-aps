@@ -1,28 +1,26 @@
 import { Digito } from "../@types/Digito";
+import { ITela } from "../@types/ITela";
 
 type TelaType = {
   tela: HTMLElement;
   campoInformacao: HTMLElement;
 };
 
-export default class Tela {
-  tela: TelaType["tela"] | null;
-  campoInformacao: TelaType["campoInformacao"] | null;
+export default class Tela implements ITela {
+  tela: TelaType["tela"];
+  campoInformacao: TelaType["campoInformacao"];
 
-  constructor() {
-    const tela = document.getElementById("");
-    const campoInformacao = document.getElementById("");
-
+  constructor(tela: TelaType["tela"], campoInformacao: TelaType['campoInformacao']) {
     this.tela = tela;
     this.campoInformacao = campoInformacao;
   }
 
-  mostrarDigito(digito: Digito) {
+  mostre(digito: Digito) {
     if (this.tela) this.tela.innerText += digito;
     else window.alert("Tela não encontrada (Tela.ts)");
   }
 
-  limpar() {
+  limpe() {
     if (this.tela) this.tela.innerText = "";
     else window.alert("Tela não encontrada (Tela.ts)");
   }

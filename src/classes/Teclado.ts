@@ -1,24 +1,35 @@
 import { Controle } from "../@types/Controle";
 import { Digito } from "../@types/Digito";
-import { Operacao } from "../@types/Operacao";
+import { ITeclado } from "../@types/ITeclado";
+import { Operação } from "../@types/Operacao";
 import Cpu from "./Cpu";
+import Tela from "./Tela";
 
-export default class Teclado {
+export default class Teclado implements ITeclado {
   cpu: Cpu;
+  teclado: HTMLElement;
 
-  constructor() {
+  constructor(teclado: HTMLElement) {
+    this.teclado = teclado;
     this.cpu = new Cpu();
+    this.events();
   }
 
-  digitarDigito(digito: Digito) {
-    this.cpu.receberDigito(digito);
+  events() {
+    this.teclado.addEventListener("click", (e) => {
+      console.log(e.target);
+    });
   }
 
-  digitarOperacao(operacao: Operacao) {
-    this.cpu.receberOperacao(operacao);
+  digiteDigito(digito: Digito) {
+    this.cpu.recebeDigito(digito);
   }
 
-  digitarControle(controle: Controle) {
-    this.cpu.receberControle(controle);
+  digiteOperacao(operação: Operação) {
+    this.cpu.recebeOperacao(operação);
+  }
+
+  digiteControle(controle: Controle) {
+    this.cpu.recebeControle(controle);
   }
 }
