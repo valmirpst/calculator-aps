@@ -7,12 +7,9 @@ import Tela from "./Tela";
 
 export default class Cpu implements ICpu {
   tela: Tela;
-  teclado: Teclado;
 
-  constructor(tela: Tela, teclado: Teclado) {
+  constructor(tela: Tela) {
     this.tela = tela;
-    this.teclado = teclado;
-    this.teclado.events();
   }
 
   recebaDigito(digito: Digito) {

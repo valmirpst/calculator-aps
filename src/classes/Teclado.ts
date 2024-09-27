@@ -7,29 +7,20 @@ import Tela from "./Tela";
 
 export default class Teclado implements ITeclado {
   cpu: Cpu;
-  teclado: HTMLElement;
 
-  constructor(teclado: HTMLElement) {
-    this.teclado = teclado;
-    this.cpu = new Cpu();
-    this.events();
-  }
-
-  events() {
-    this.teclado.addEventListener("click", (e) => {
-      console.log(e.target);
-    });
+  constructor(cpu: Cpu) {
+    this.cpu = cpu;
   }
 
   digiteDigito(digito: Digito) {
-    this.cpu.recebeDigito(digito);
+    this.cpu.recebaDigito(digito);
   }
 
   digiteOperacao(operação: Operação) {
-    this.cpu.recebeOperacao(operação);
+    this.cpu.recebaOperacao(operação);
   }
 
   digiteControle(controle: Controle) {
-    this.cpu.recebeControle(controle);
+    this.cpu.recebaControle(controle);
   }
 }

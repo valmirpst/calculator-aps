@@ -1,31 +1,28 @@
+import { ICalculadora } from "../@types/ICalculadora";
 import Cpu from "./Cpu";
 import Teclado from "./Teclado";
 import Tela from "./Tela";
 
-export default class Calculadora {
+export default class Calculadora implements ICalculadora {
   tela: Tela;
+  cpu: Cpu;
   teclado: Teclado;
 
-  constructor() {
-    this.tela = this.defineTela();
-    this.teclado = this.defineTeclado();
-    this.defineCpu();
+  constructor(tela: Tela, cpu: Cpu, teclado: Teclado) {
+    this.tela = tela;
+    this.cpu = cpu;
+    this.teclado = teclado;
   }
 
-  defineTela() {
-    const tela = document.getElementById("tela") as HTMLElement;
-    const campoInformacao = document.getElementById("campoInformacao") as HTMLElement;
-
-    return new Tela(tela, campoInformacao);
+  defineTela(tela: Tela) {
+    this.tela = tela;
   }
 
-  defineTeclado() {
-    const teclado = document.getElementById("teclado") as HTMLElement;
-
-    return new Teclado(teclado);
+  defineTeclado(teclado: Teclado) {
+    this.teclado = teclado;
   }
 
-  defineCpu() {
-    return new Cpu(this.tela, this.teclado);
+  defineCpu(cpu: Cpu) {
+    this.cpu = cpu;
   }
 }
