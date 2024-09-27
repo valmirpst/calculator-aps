@@ -1,40 +1,49 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculator Project | APS</title>
+    <title>Projeto Calculadora | APS</title>
   </head>
 
   <body>
     <div id="app">
-      <main class="calculator">
-        <section class="calc-header">
-          <div class="calc-title">
+      <main class="calculadora">
+        <section class="cabecalhoCalculadora">
+          <div class="titulo-calculadora">
             <div class="mini-display">
               <div></div>
               <div></div>
               <div></div>
               <div></div>
             </div>
-            <div class="calc-name-box">
+            <div class="caixa-nome-calculadora">
               <span>KK-402</span>
-              <span class="calc-name-complement">ELECTRONIC CALCULATOR</span>
+              <span class="complemento-nome-calculadora">CALCULADORA ELETRÔNICA</span>
             </div>
           </div>
-          <div class="calc-display">
-            <div class="inner-display">
-              <div class="display-messages">
+          <div class="display-calculadora">
+            <div class="display-interno">
+              <div class="mensagens-display">
                 <div>M</div>
                 <div>-</div>
                 <div>E</div>
               </div>
-              <div class="display-digits">0</div>
+              <div class="digitos-display">0</div>
             </div>
           </div>
         </section>
 
-        <section class="calc-body">calc-body</section>
+        <section class="corpoCalculadora">
+          <button class="botao botao-vermelho">CE</button>
+          <button class="botao">7</button>
+          <button class="botao">8</button>
+          <button class="botao">9</button>
+          <button class="botao botao-laranja">+</button>
+          <button class="botao botao-igual">=</button>
+        </section>
+        
       </main>
     </div>
     <script type="module" src="/src/index.ts"></script>

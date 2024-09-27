@@ -2,42 +2,33 @@
   font-family: "Digit";
   src: url("../fonts/Digit.TTF");
 }
-
 :root {
-  /* Defining Colors */
-  --primary: #2c768c;
-  --primary-lighter: #289591;
-  --secondary: #b2a429;
-  --display: #a1a888;
-  --accent: #cccccc;
-  --gray: #666666;
-  --dark-gray: #2e2d29;
-  --black: #000000;
-  --white: #ffffff;
-
-  /* Defining Fonts */
-  --primary-font: Arial, Helvetica, sans-serif;
-  --digit-font: "Digit";
-
-  /* Setting Default Font */
-  font-family: var(--primary-font);
-
-  /* Font and Text Stylization */
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --azul: #2874A6;    
+  --azulClaro: #6593b3;            
+  --cinza-escuro: #2C3E50;       
+  --preto: #1B2631;             
+  --vermelho: #E74C3C;           
+  --branco: #FFFFFF;            
+  --claro:#a6b6c2;          
+  --laranja: #F39C12;           
+  
+  /* Fontes */
+  --fonte-principal: Arial, Helvetica, sans-serif;
+  --fonte-digital: "Digit";  
 }
 
-* {
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   margin: 0;
-  padding: 0;
-  outline: 0;
-  box-sizing: border-box;
+  background-color: var(--azulClaro);
 }
-
-.calculator {
-  background-color: var(--gray);
+.calculadora {
+  background-color: var(--cinza-escuro);
   width: max-content;
+  border-left: 10px solid var(--preto);
   border-radius: 1rem;
+  padding: 1rem;
 }
