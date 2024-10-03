@@ -2,8 +2,7 @@ import { Controle } from "../@types/Controle";
 import { Digito } from "../@types/Digito";
 import { ITeclado } from "../@types/ITeclado";
 import { Operação } from "../@types/Operacao";
-import Cpu from "./Cpu";
-import Tela from "./Tela";
+import Cpu from "./CpuB1";
 
 export default class Teclado implements ITeclado {
   cpu: Cpu;

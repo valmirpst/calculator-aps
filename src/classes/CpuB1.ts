@@ -2,8 +2,7 @@ import { Controle } from "../@types/Controle";
 import { Digito } from "../@types/Digito";
 import { ICpu } from "../@types/ICpu";
 import { Operação } from "../@types/Operacao";
-import Teclado from "./Teclado";
-import Tela from "./Tela";
+import Tela from "./TelaB1";
 
 export default class Cpu implements ICpu {
   tela: Tela;

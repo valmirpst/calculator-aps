@@ -1,7 +1,7 @@
 import { ICalculadora } from "../@types/ICalculadora";
-import Cpu from "./Cpu";
-import Teclado from "./Teclado";
-import Tela from "./Tela";
+import Cpu from "./CpuB1";
+import Teclado from "./TecladoB1";
+import Tela from "./TelaB1";
 
 export default class Calculadora implements ICalculadora {
   tela: Tela;
