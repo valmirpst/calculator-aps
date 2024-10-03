@@ -1,10 +1,7 @@
-import { Controle } from "../@types/Controle";
-import { Digito } from "../@types/Digito";
-import { ICpu } from "../@types/ICpu";
-import { Operação } from "../@types/Operacao";
-import Tela from "./Tela";
+import { Controle, Cpu, Digito, Operação, Tela } from "../calculadora";
+import TelaB1 from "./TelaB1";
 
-export default class CpuB1 implements ICpu {
+export default class CpuB1 implements Cpu {
   tela: Tela;
 
   constructor(tela: Tela) {
@@ -20,4 +17,10 @@ export default class CpuB1 implements ICpu {
   recebaControle(controle: Controle) {}
 
   reinicie() {}
+
+  definaTela(tela: Tela): void {}
+
+  obtenhaTela(): Tela {
+    return new TelaB1();
+  }
 }
