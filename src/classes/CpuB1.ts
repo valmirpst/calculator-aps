@@ -1,11 +1,9 @@
-import { Controle } from "../@types/Controle";
-import { Digito } from "../@types/Digito";
-import { ICpu } from "../@types/ICpu";
-import { Operação } from "../@types/Operacao";
-import Tela from "./TelaB1";
 
-export default class Cpu implements ICpu {
-  tela: Tela;
+import { Controle, Cpu, Digito, Operação, Tela } from "../calculadora"; 
+import TelaB1 from "./TelaB1";
+
+export default class CpuB1 implements Cpu {
+  tela!: Tela;
 
   constructor(tela: Tela) {
     this.tela = tela;
@@ -15,9 +13,24 @@ export default class Cpu implements ICpu {
     this.tela.mostre(digito);
   }
 
-  recebaOperacao(operacao: Operação) {}
+  recebaOperacao(operacao: Operação) {
+    throw new Error("Method not implemented");
+  }
 
-  recebaControle(controle: Controle) {}
+  recebaControle(controle: Controle) {
+    throw new Error("Method not implemented");
+  }
 
-  reinicie() {}
+  reinicie(): void {
+    this.tela.limpe();
+    this.tela.mostre(Digito.ZERO)
+  }
+
+  definaTela(tela: Tela): void {
+    this.tela = tela
+  }
+
+  obtenhaTela(): TelaB1 {
+    throw new Error("Method not implemented");
+  }
 }
