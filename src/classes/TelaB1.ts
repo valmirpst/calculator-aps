@@ -1,7 +1,7 @@
-import { Digito } from "../@types/Digito";
-import { ITela } from "../@types/ITela";
+import { Digito, Tela } from "../calculadora";
 
-export default class Tela implements ITela {
+
+export default class TelaB1 implements Tela {
   constructor() {}
 
   mostre(digito: Digito) {

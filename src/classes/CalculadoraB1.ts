@@ -1,9 +1,12 @@
-import { ICalculadora } from "../@types/ICalculadora";
-import Cpu from "./CpuB1";
-import Teclado from "./TecladoB1";
-import Tela from "./TelaB1";
+import { Calculadora, Tela, Cpu, Teclado } from "../calculadora";
+import CpuB1 from "./CpuB1";
+import TecladoB1 from "./TecladoB1";
+import TelaB1 from "./TelaB1";
 
-export default class Calculadora implements ICalculadora {
+
+
+
+export default class CalculadoraB1 implements Calculadora {
   tela: Tela;
   cpu: Cpu;
   teclado: Teclado;
@@ -14,15 +17,27 @@ export default class Calculadora implements ICalculadora {
     this.teclado = teclado;
   }
 
-  defineTela(tela: Tela) {
+  definaTela(tela: Tela) {
     this.tela = tela;
   }
 
-  defineTeclado(teclado: Teclado) {
+  obtenhaTela(): Tela {
+    return new TelaB1()
+  }
+  
+  definaCpu(cpu: Cpu) {
+    this.cpu = cpu;
+  }
+
+  obtenhaCpu(): Cpu {
+    return new CpuB1(this.tela);
+  }
+
+  definaTeclado(teclado: Teclado) {
     this.teclado = teclado;
   }
 
-  defineCpu(cpu: Cpu) {
-    this.cpu = cpu;
+  obtenhaTeclado(): Teclado {
+    return new TecladoB1()
   }
 }

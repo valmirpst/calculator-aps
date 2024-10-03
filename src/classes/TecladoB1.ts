@@ -4,7 +4,7 @@ import { ITeclado } from "../@types/ITeclado";
 import { Operação } from "../@types/Operacao";
 import Cpu from "./CpuB1";
 
-export default class Teclado implements ITeclado {
+export default class TecladoB1 implements Teclado {
   cpu: Cpu;
 
   constructor(cpu: Cpu) {

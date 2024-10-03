@@ -4,7 +4,7 @@ import { ICpu } from "../@types/ICpu";
 import { Operação } from "../@types/Operacao";
 import Tela from "./TelaB1";
 
-export default class Cpu implements ICpu {
+export default class CpuB1 implements Cpu {
   tela: Tela;
 
   constructor(tela: Tela) {
