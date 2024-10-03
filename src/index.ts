@@ -1,5 +1,5 @@
-import { Digito } from "./@types/Digito";
-import { Operação } from "./@types/Operacao";
+import { Digito } from "./calculadora";
+import { Operação } from "./calculadora";
 import "./assets/styles/index.css";
 import Calculadora from "./classes/CalculadoraB1";
 import Cpu from "./classes/CpuB1";
