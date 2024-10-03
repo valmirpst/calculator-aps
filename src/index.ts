@@ -1,14 +1,13 @@
-import { Digito } from "./@types/Digito";
-import { Operação } from "./@types/Operacao";
 import "./assets/styles/index.css";
+import { Digito, Operação } from "./calculadora";
 import Calculadora from "./classes/CalculadoraB1";
-import Cpu from "./classes/CpuB1";
-import Teclado from "./classes/TecladoB1";
-import Tela from "./classes/TelaB1";
+import CpuB1 from "./classes/CpuB1";
+import TecladoB1 from "./classes/TecladoB1";
+import TelaB1 from "./classes/TelaB1";
 
-const tela = new Tela();
-const cpu = new Cpu(tela);
-const teclado = new Teclado(cpu);
+const tela = new TelaB1();
+const cpu = new CpuB1(tela);
+const teclado = new TecladoB1(cpu);
 
 const calculadora = new Calculadora(tela, cpu, teclado);
 

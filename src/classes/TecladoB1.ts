@@ -1,14 +1,10 @@
-import { Controle } from "../@types/Controle";
-import { Digito } from "../@types/Digito";
-import { ITeclado } from "../@types/ITeclado";
-import { Operação } from "../@types/Operacao";
-import Cpu from "./CpuB1";
+import { Controle, Cpu, Digito, Operação, Teclado } from "../calculadora";
 
-export default class Teclado implements ITeclado {
-  cpu: Cpu;
+export default class TecladoB1 implements Teclado {
+  cpu!: Cpu;
 
   constructor(cpu: Cpu) {
-    this.cpu = cpu;
+    this.definaCpu(cpu);
   }
 
   digiteDigito(digito: Digito) {
@@ -21,5 +17,13 @@ export default class Teclado implements ITeclado {
 
   digiteControle(controle: Controle) {
     this.cpu.recebaControle(controle);
+  }
+
+  definaCpu(cpu: Cpu): void {
+    this.cpu = cpu;
+  }
+
+  obtenhaCpu(): Cpu {
+    return this.cpu;
   }
 }
