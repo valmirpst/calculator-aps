@@ -1,7 +1,5 @@
 import { Calculadora, Cpu, Teclado, Tela } from "../calculadora";
 
-import CpuB1 from "./CpuB1";
-
 export default class CalculadoraB1 implements Calculadora {
   tela!: Tela;
   cpu!: Cpu;
@@ -25,10 +23,6 @@ export default class CalculadoraB1 implements Calculadora {
     this.cpu = cpu;
   }
 
-  obtenhaCpu(): Cpu {
-    return this.cpu;
-  }
-
   definaTeclado(teclado: Teclado) {
     this.teclado = teclado;
   }
@@ -38,6 +32,6 @@ export default class CalculadoraB1 implements Calculadora {
   }
 
   obtenhaCpu(): Cpu {
-    return new CpuB1(this.tela);
+    return this.cpu;
   }
 }
