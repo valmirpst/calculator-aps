@@ -2,9 +2,9 @@ import { Controle } from "../@types/Controle";
 import { Digito } from "../@types/Digito";
 import { ICpu } from "../@types/ICpu";
 import { Operação } from "../@types/Operacao";
-import Tela from "./TelaB1";
+import Tela from "./Tela";
 
-export default class Cpu implements ICpu {
+export default class CpuB1 implements ICpu {
   tela: Tela;
 
   constructor(tela: Tela) {
