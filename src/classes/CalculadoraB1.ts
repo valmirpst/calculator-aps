@@ -23,15 +23,15 @@ export default class CalculadoraB1 implements Calculadora {
     this.cpu = cpu;
   }
 
-  obtenhaCpu(): Cpu {
-    return this.cpu;
-  }
-
   definaTeclado(teclado: Teclado) {
     this.teclado = teclado;
   }
 
   obtenhaTeclado(): Teclado {
     return this.teclado;
+  }
+
+  obtenhaCpu(): Cpu {
+    return this.cpu;
   }
 }

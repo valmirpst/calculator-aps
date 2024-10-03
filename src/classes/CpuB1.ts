@@ -1,11 +1,10 @@
 import { Controle, Cpu, Digito, Operação, Tela } from "../calculadora";
-import TelaB1 from "./TelaB1";
 
 export default class CpuB1 implements Cpu {
-  tela: Tela;
+  tela!: Tela;
 
   constructor(tela: Tela) {
-    this.tela = tela;
+    this.definaTela(tela);
   }
 
   recebaDigito(digito: Digito) {
@@ -16,11 +15,16 @@ export default class CpuB1 implements Cpu {
 
   recebaControle(controle: Controle) {}
 
-  reinicie() {}
+  reinicie(): void {
+    this.tela.limpe();
+    this.tela.mostre(Digito.ZERO);
+  }
 
-  definaTela(tela: Tela): void {}
+  definaTela(tela: Tela): void {
+    this.tela = tela;
+  }
 
   obtenhaTela(): Tela {
-    return new TelaB1();
+    return this.tela;
   }
 }
