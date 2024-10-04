@@ -12,6 +12,11 @@ const teclado = new TecladoB1(cpu);
 const calculadora = new Calculadora(tela, cpu, teclado);
 
 calculadora.tela.limpe();
+// teste se for o primeiro digito limpar
 calculadora.teclado.digiteDigito(Digito.ZERO);
-
+calculadora.teclado.digiteDigito(Digito.UM);
+calculadora.teclado.digiteDigito(Digito.DOIS);
+calculadora.teclado.digiteOperacao(Operação.SOMA);
+console.log('Operação')
+calculadora.teclado.digiteDigito(Digito.DOIS);
 calculadora.cpu.recebaOperacao(Operação.SOMA);
