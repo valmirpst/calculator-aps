@@ -1,19 +1,10 @@
 .corpoCalculadora {
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.corpoCalculadora > .row {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .botao {
-  min-width: 4rem;
-  min-height: 4rem;
   background-color: var(--cinza-escuro);
   border-radius: 8px;
   color: var(--branco);
@@ -21,6 +12,14 @@
   padding: 1rem;
   margin: 0.25rem;
   border: none;
+  box-shadow: 2px 2px 4px 1px var(--preto);
+  filter: brightness(0.9);
+  transition: 0.15s;
+}
+
+.botao:hover {
+  filter: brightness(1);
+  box-shadow: 1px 1px 2px 1px var(--preto);
 }
 
 .botao-vermelho {
@@ -33,6 +32,34 @@
   color: var(--branco);
 }
 
+.botao-laranja:hover {
+  filter: brightness(0.8);
+}
+
+.botao-auxiliar {
+  font-size: 1.25rem;
+  color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.botao-auxiliar > button {
+  width: 90%;
+  border-radius: 999px;
+}
+
+.botao-mais {
+  background-color: var(--azul);
+  grid-row: span 2;
+}
+
+.botao-mais:hover,
+.botao-once:hover {
+  filter: brightness(1.05);
+}
+
 .botao-igual {
   background-color: var(--laranja);
   color: var(--branco);
@@ -43,10 +70,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .botao-once > .dash {
-  width: 100%;
+  width: 65%;
   height: 2px;
   background-color: var(--branco);
 }
