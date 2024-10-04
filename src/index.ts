@@ -1,5 +1,5 @@
 import "./assets/styles/index.css";
-import { Digito, Operação } from "./calculadora";
+import { Controle, Digito, Operação } from "./calculadora";
 import Calculadora from "./classes/CalculadoraB1";
 import CpuB1 from "./classes/CpuB1";
 import TecladoB1 from "./classes/TecladoB1";
@@ -15,3 +15,4 @@ calculadora.tela.limpe();
 calculadora.teclado.digiteDigito(Digito.ZERO);
 
 calculadora.cpu.recebaOperacao(Operação.SOMA);
+calculadora.cpu.recebaControle(Controle.ATIVAÇÃO_LIMPEZA_ERRO)
