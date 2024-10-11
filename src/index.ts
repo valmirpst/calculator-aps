@@ -16,8 +16,11 @@ calculadora.tela.limpe();
 calculadora.teclado.digiteDigito(Digito.ZERO);
 calculadora.teclado.digiteDigito(Digito.UM);
 calculadora.teclado.digiteDigito(Digito.DOIS);
-calculadora.teclado.digiteOperacao(Operação.SOMA);
-console.log('Operação')
-calculadora.teclado.digiteDigito(Digito.DOIS);
-calculadora.cpu.recebaOperacao(Operação.SOMA);
-calculadora.cpu.recebaControle(Controle.ATIVAÇÃO_LIMPEZA_ERRO)
+calculadora.teclado.digiteOperacao(Operação.MULTIPLICAÇÃO);
+console.log('Operação');
+
+calculadora.teclado.digiteDigito(Digito.SETE);
+calculadora.teclado.digiteDigito(Digito.SEIS);
+calculadora.teclado.digiteControle(Controle.IGUAL)
+// calculadora.cpu.recebaOperacao(Operação.SOMA);
+

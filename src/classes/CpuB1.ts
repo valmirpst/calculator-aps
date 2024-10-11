@@ -34,34 +34,70 @@ export default class CpuB1 implements Cpu {
   }
 
   recebaOperacao(operacao: Operação) {
-    let valor = "";
-    this.listaDigitos.forEach((v) => {
-      valor += v.toString();
-    });
-    this.valor1 = Number(valor);
-
+    this.valor1 = this.transformaLista();
     this.operacao = operacao;
     this.listaDigitos = [];
   }
 
   recebaControle(controle: Controle) {
-    if (controle === Controle.ATIVAÇÃO_LIMPEZA_ERRO) {
-      this.tratarAtivacaoLimpezaErro();
-      this.tela.limpe();
-      this.tela.mostre(Digito.ZERO);
-    } else if (controle === Controle.IGUAL) {
-      const resultado = this.calculeResultado();
-      this.tela.limpe();
-
-      // resultado.forEach( digito => {
-      //   this.tela.mostre(digito);
-      // });
+    switch (controle){
+      case Controle.ATIVAÇÃO_LIMPEZA_ERRO:{
+        this.tratarAtivacaoLimpezaErro();
+        this.tela.limpe();
+        this.tela.mostre(Digito.ZERO);
+        break
+      }
+      case Controle.IGUAL:{
+        const resultado = this.calculeResultado();
+        this.tela.limpe()
+        for(let n of resultado.toString()){
+          this.tela.mostre(Number(n))
+        }
+        break
+      }
     }
   }
-  private calculeResultado() {}
+  private transformaLista(){
+    const valor = this.listaDigitos.join("")
+    return Number(valor);
+  }
+
+  private transformaOperacao(){
+    let operacaoTransformada = "";
+    switch (this.operacao){
+      case Operação.SOMA:{
+        operacaoTransformada = "+";
+        break
+      }
+      case Operação.SUBTRAÇÃO:{
+        operacaoTransformada = "-";
+        break
+      }
+      case Operação.MULTIPLICAÇÃO:{
+        operacaoTransformada = "*";
+        break
+      }
+      case Operação.DIVISÃO:{
+        operacaoTransformada = "/";
+        break
+      }
+      case Operação.RAIZ_QUADRADA:{
+        operacaoTransformada = "raiz";
+        break
+      }
+      case Operação.PERCENTUAL:{
+        operacaoTransformada = "percentual";
+        break
+      }
+    }
+    return operacaoTransformada
+  }
+  private calculeResultado():Number {
+    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.transformaLista()}`)
+  }
   private tratarAtivacaoLimpezaErro() {
     this.tela.limpe();
-    // nn sei a lógica ainda já implemento
+    
   }
 
   reinicie(): void {
