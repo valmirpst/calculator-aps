@@ -11,16 +11,20 @@ const teclado = new TecladoB1(cpu);
 
 const calculadora = new Calculadora(tela, cpu, teclado);
 
-calculadora.tela.limpe();
-// teste se for o primeiro digito limpar
-calculadora.teclado.digiteDigito(Digito.ZERO);
-calculadora.teclado.digiteDigito(Digito.UM);
-calculadora.teclado.digiteDigito(Digito.DOIS);
-calculadora.teclado.digiteOperacao(Operação.MULTIPLICAÇÃO);
-console.log('Operação');
+// O que tá aqui pra baixo são os testes.
+// Basicamente, tem uma função "sleep" pra simular que alguém está digitando.
 
-calculadora.teclado.digiteDigito(Digito.SETE);
-calculadora.teclado.digiteDigito(Digito.SEIS);
-calculadora.teclado.digiteControle(Controle.IGUAL)
-// calculadora.cpu.recebaOperacao(Operação.SOMA);
+(async function () {
+  await sleep();
+  calculadora.teclado.digiteDigito(Digito.UM);
+  await sleep();
+  calculadora.teclado.digiteOperacao(Operação.SOMA);
+  await sleep();
+  calculadora.teclado.digiteDigito(Digito.DOIS);
+  await sleep();
+  calculadora.teclado.digiteControle(Controle.IGUAL);
+})();
 
+async function sleep(time = 1000) {
+  return await new Promise((resolve) => setTimeout(resolve, time));
+}

@@ -1,90 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projeto Calculadora | APS</title>
+    <link rel="shortcut icon" href="./src/assets/images/calculator.svg" type="image/x-icon" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projeto Calculadora | APS</title>
-</head>
-
-<body>
-  <div id="app">
-    <main class="calculadora">
-      <section class="cabecalhoCalculadora">
-        <div class="titulo-calculadora">
-          <div class="mini-display">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-          <div class="caixa-nome-calculadora">
-            <span>KK-402</span>
-            <span class="complemento-nome-calculadora">CALCULADORA ELETRÔNICA</span>
-          </div>
-        </div>
-        <div class="display-calculadora">
-          <div class="display-interno">
-            <div id="campoInformacao" class="mensagens-display">
-              <div>M</div>
-              <div>-</div>
-              <div>E</div>
+  <body>
+    <div id="app">
+      <main class="calculadora">
+        <section class="cabecalhoCalculadora">
+          <div class="titulo-calculadora">
+            <div class="mini-display">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
             </div>
-            <div id="tela" class="digitos-display">0</div>
+            <div class="caixa-nome-calculadora">
+              <span>KK-402</span>
+              <span class="complemento-nome-calculadora">CALCULADORA ELETRÔNICA</span>
+            </div>
           </div>
-        </div>
-      </section>
+          <div class="display-calculadora">
+            <div class="display-interno">
+              <div id="campoInformacao" class="mensagens-display">
+                <div>M</div>
+                <div>-</div>
+                <div>E</div>
+              </div>
+              <div id="tela" class="digitos-display">0</div>
+            </div>
+          </div>
+        </section>
 
-      <section id="teclado" class="corpoCalculadora">
-        <button class="botao botao-vermelho botao-once">
-          <span>ON</span>
-          <div class="dash"></div>
-          <span>CE</span>
-        </button>
+        <section id="teclado" class="corpoCalculadora">
+          <button class="botao botao-vermelho botao-once">
+            <span>ON</span>
+            <div class="dash"></div>
+            <span>CE</span>
+          </button>
 
-        <div class="botao-auxiliar">
-          <span>MRC</span>
-          <button class="botao botao-laranja"></button>
-        </div>
+          <div class="botao-auxiliar">
+            <span>MRC</span>
+            <button class="botao botao-laranja"></button>
+          </div>
 
-        <div class="botao-auxiliar">
-          <span>M-</span>
-          <button class="botao botao-laranja"></button>
-        </div>
-        <div class="botao-auxiliar">
-          <span>M+</span>
-          <button class="botao botao-laranja"></button>
-        </div>
+          <div class="botao-auxiliar">
+            <span>M-</span>
+            <button class="botao botao-laranja"></button>
+          </div>
+          <div class="botao-auxiliar">
+            <span>M+</span>
+            <button class="botao botao-laranja"></button>
+          </div>
 
+          <button class="botao">OFF</button>
+          <button class="botao">raiz</button>
+          <button class="botao">%</button>
+          <button class="botao">div</button>
 
-        <button class="botao">OFF</button>
-        <button class="botao">raiz</button>
-        <button class="botao">%</button>
-        <button class="botao">div</button>
+          <button class="botao">7</button>
+          <button class="botao">8</button>
+          <button class="botao">9</button>
+          <button class="botao">x</button>
 
-        <button class="botao">7</button>
-        <button class="botao">8</button>
-        <button class="botao">9</button>
-        <button class="botao">x</button>
+          <button class="botao">4</button>
+          <button class="botao">5</button>
+          <button class="botao">6</button>
+          <button class="botao">-</button>
 
-        <button class="botao">4</button>
-        <button class="botao">5</button>
-        <button class="botao">6</button>
-        <button class="botao">-</button>
+          <button class="botao">1</button>
+          <button class="botao">2</button>
+          <button class="botao">3</button>
+          <button class="botao botao-mais">+</button>
 
-        <button class="botao">1</button>
-        <button class="botao">2</button>
-        <button class="botao">3</button>
-        <button class="botao botao-mais">+</button>
-
-        <button class="botao">0</button>
-        <button class="botao">.</button>
-        <button class="botao">=</button>
-
-      </section>
-    </main>
-  </div>
-  <script type="module" src="/src/index.ts"></script>
-</body>
-
+          <button class="botao">0</button>
+          <button class="botao">.</button>
+          <button class="botao">=</button>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/src/index.ts"></script>
+  </body>
 </html>

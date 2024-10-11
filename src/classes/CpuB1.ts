@@ -14,90 +14,69 @@ export default class CpuB1 implements Cpu {
   }
 
   recebaDigito(digito: Digito) {
-    // limpa a tela se for o primeiro
-    // armazena o digito
-    // exibe a tela
+    // retira o "0" se for o primeiro digito;
+    // armazena o digito;
+    // exibe os digitos na tela.
 
     if (this.listaDigitos.length === 1 && this.listaDigitos[0] === 0) {
-      this.tela.limpe();
       this.listaDigitos.pop();
     }
 
-    if (this.operacao && this.valor1 && this.listaDigitos.length === 0) {
-      this.tela.limpe();
-    }
-
     this.listaDigitos.push(digito);
-    this.listaDigitos.forEach((digitoAtual) => {
-      this.tela.mostre(digitoAtual);
-    });
+    this.tela.limpe();
+    this.listaDigitos.forEach((digitoAtual) => this.tela.mostre(digitoAtual));
   }
 
   recebaOperacao(operacao: Operação) {
     this.valor1 = this.transformaLista();
     this.operacao = operacao;
     this.listaDigitos = [];
+    console.log(this.transformaOperacao());
   }
 
   recebaControle(controle: Controle) {
-    switch (controle){
-      case Controle.ATIVAÇÃO_LIMPEZA_ERRO:{
+    switch (controle) {
+      case Controle.ATIVAÇÃO_LIMPEZA_ERRO: {
         this.tratarAtivacaoLimpezaErro();
-        this.tela.limpe();
-        this.tela.mostre(Digito.ZERO);
-        break
+        break;
       }
-      case Controle.IGUAL:{
-        const resultado = this.calculeResultado();
-        this.tela.limpe()
-        for(let n of resultado.toString()){
-          this.tela.mostre(Number(n))
-        }
-        break
+      case Controle.IGUAL: {
+        const resultado = this.calculaResultado();
+        this.tela.limpe();
+        for (let n of resultado.toString()) this.tela.mostre(Number(n));
+        break;
       }
     }
   }
-  private transformaLista(){
-    const valor = this.listaDigitos.join("")
+
+  private transformaLista() {
+    const valor = this.listaDigitos.join("");
     return Number(valor);
   }
 
-  private transformaOperacao(){
-    let operacaoTransformada = "";
-    switch (this.operacao){
-      case Operação.SOMA:{
-        operacaoTransformada = "+";
-        break
-      }
-      case Operação.SUBTRAÇÃO:{
-        operacaoTransformada = "-";
-        break
-      }
-      case Operação.MULTIPLICAÇÃO:{
-        operacaoTransformada = "*";
-        break
-      }
-      case Operação.DIVISÃO:{
-        operacaoTransformada = "/";
-        break
-      }
-      case Operação.RAIZ_QUADRADA:{
-        operacaoTransformada = "raiz";
-        break
-      }
-      case Operação.PERCENTUAL:{
-        operacaoTransformada = "percentual";
-        break
-      }
+  private transformaOperacao() {
+    switch (this.operacao) {
+      case Operação.SOMA:
+        return "+";
+      case Operação.SUBTRAÇÃO:
+        return "-";
+      case Operação.MULTIPLICAÇÃO:
+        return "*";
+      case Operação.DIVISÃO:
+        return "/";
+      case Operação.RAIZ_QUADRADA:
+        return "raiz";
+      case Operação.PERCENTUAL:
+        return "percentual";
     }
-    return operacaoTransformada
   }
-  private calculeResultado():Number {
-    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.transformaLista()}`)
+
+  private calculaResultado(): Number {
+    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.transformaLista()}`);
   }
+
   private tratarAtivacaoLimpezaErro() {
     this.tela.limpe();
-    
   }
 
   reinicie(): void {
