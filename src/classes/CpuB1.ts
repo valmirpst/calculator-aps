@@ -5,12 +5,14 @@ export default class CpuB1 implements Cpu {
   listaDigitos: Digito[];
   valor1: number | null;
   operacao: Operação | null;
+  posicaoDecimal: number | null;
 
   constructor(tela: Tela) {
     this.definaTela(tela);
     this.listaDigitos = [0];
     this.valor1 = null;
     this.operacao = null;
+    this.posicaoDecimal = null;
   }
 
   recebaDigito(digito: Digito) {
@@ -29,6 +31,7 @@ export default class CpuB1 implements Cpu {
 
   recebaOperacao(operacao: Operação) {
     this.valor1 = this.transformaLista();
+    this.posicaoDecimal = null;
     this.operacao = operacao;
     this.listaDigitos = [];
     console.log(this.transformaOperacao());
@@ -43,14 +46,23 @@ export default class CpuB1 implements Cpu {
       case Controle.IGUAL: {
         const resultado = this.calculaResultado();
         this.tela.limpe();
+        console.log("resultado:", resultado)
         for (let n of resultado.toString()) this.tela.mostre(Number(n));
         break;
+
+      }
+      case Controle.SEPARADOR_DECIMAL: {
+        if (!this.posicaoDecimal) this.posicaoDecimal = this.listaDigitos.length;
       }
     }
   }
 
   private transformaLista() {
     const valor = this.listaDigitos.join("");
+    if (this.posicaoDecimal) {
+      const decimais = this.listaDigitos.length - this.posicaoDecimal // [1234] Ponto decimal no 2, conta é o tamanho da lista - menos a posição do ponto decimal, logo o número é o numero da lista é divido por 10 ^^ número de casas decimais
+      return Number(valor) / (10**decimais)
+    } 
     return Number(valor);
   }
 
