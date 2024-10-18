@@ -2,6 +2,7 @@
   font-family: "Digit";
   src: url("../fonts/Digit.TTF");
 }
+
 :root {
   --azul: #2874a6;
   --azulClaro: #6593b3;
@@ -26,6 +27,7 @@ body {
   background-color: var(--azulClaro);
   overflow: hidden;
 }
+
 .calculadora {
   background-color: var(--cinza-escuro);
   width: max-content;

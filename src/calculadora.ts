@@ -30,8 +30,16 @@ export enum Controle {
   IGUAL,
 }
 
+export enum Sinal {
+  POSITIVO,
+  NEGATIVO,
+}
+
 export interface Tela {
   mostre(digito: Digito): void;
+  mostreSeparadorDecimal(): void;
+  mostreSinal(sinal: Sinal): void;
+  mostreErro(): void;
   limpe(): void;
 }
 

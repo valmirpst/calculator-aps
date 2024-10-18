@@ -1,16 +1,27 @@
-import { Digito, Tela } from "../calculadora";
+import { Digito, Sinal, Tela } from "../calculadora";
 
 export default class TelaB1 implements Tela {
   constructor() {}
 
-  mostre(digito: Digito) {
+  mostre(digito: Digito): void {
     console.log(digito);
 
     const telaProvisoria = document.getElementById("tela");
     if (telaProvisoria) telaProvisoria.innerHTML += digito;
   }
 
-  limpe() {
+  mostreSeparadorDecimal(): void {
+    console.log(".");
+
+    const telaProvisoria = document.getElementById("tela");
+    if (telaProvisoria) telaProvisoria.innerHTML += ".";
+  }
+
+  mostreSinal(sinal: Sinal): void {}
+
+  mostreErro(): void {}
+
+  limpe(): void {
     // console.clear();
 
     const telaProvisoria = document.getElementById("tela");

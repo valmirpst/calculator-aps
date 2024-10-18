@@ -1,18 +1,21 @@
 import { Controle, Cpu, Digito, Operação, Tela } from "../calculadora";
+import NumeroB1 from "./NumeroB1";
 
 export default class CpuB1 implements Cpu {
   private tela!: Tela;
-  listaDigitos: Digito[];
   valor1: number | null;
   operacao: Operação | null;
-  posicaoDecimal: number | null;
+  numero: NumeroB1;
+  // listaDigitos: Digito[];
+  // posicaoDecimal: number | null;
 
   constructor(tela: Tela) {
     this.definaTela(tela);
-    this.listaDigitos = [0];
     this.valor1 = null;
     this.operacao = null;
-    this.posicaoDecimal = null;
+    this.numero = new NumeroB1();
+    // this.listaDigitos = [0];
+    // this.posicaoDecimal = null;
   }
 
   recebaDigito(digito: Digito) {
@@ -20,20 +23,32 @@ export default class CpuB1 implements Cpu {
     // armazena o digito;
     // exibe os digitos na tela.
 
-    if (this.listaDigitos.length === 1 && this.listaDigitos[0] === 0) {
-      this.listaDigitos.pop();
+    if (
+      this.numero.digitos.length === 1 &&
+      this.numero.digitos[0] === 0 &&
+      !this.numero.posiçãoSeparadorDecimal
+    ) {
+      this.numero.digitos.pop();
+      this.tela.limpe();
     }
 
-    this.listaDigitos.push(digito);
-    this.tela.limpe();
-    this.listaDigitos.forEach((digitoAtual) => this.tela.mostre(digitoAtual));
+    if (this.valor1 && this.numero.digitos.length === 0) this.tela.limpe();
+    this.numero.digitos.push(digito);
+    this.tela.mostre(digito);
+    // this.tela.limpe();
+    // this.numero.digitos.forEach((digitoAtual, index) => {
+    //   if (index === this.numero.posiçãoSeparadorDecimal) this.tela.mostreSeparadorDecimal();
+    //   this.tela.mostre(digitoAtual);
+    // });
   }
 
   recebaOperacao(operacao: Operação) {
-    this.valor1 = this.transformaLista();
-    this.posicaoDecimal = null;
+    if (this.numero.digitos.length && this.operacao) {
+      this.recebaControle(Controle.IGUAL);
+    } else this.valor1 = this.numero.paraNumero();
+
     this.operacao = operacao;
-    this.listaDigitos = [];
+    this.numero.limpe();
     console.log(this.transformaOperacao());
   }
 
@@ -43,28 +58,37 @@ export default class CpuB1 implements Cpu {
         this.tratarAtivacaoLimpezaErro();
         break;
       }
+
       case Controle.IGUAL: {
         const resultado = this.calculaResultado();
-        this.tela.limpe();
-        console.log("resultado:", resultado)
-        for (let n of resultado.toString()) this.tela.mostre(Number(n));
-        break;
+        console.log("resultado:", resultado);
 
+        this.tela.limpe();
+        for (let n of resultado.toString()) {
+          if (n === ".") this.tela.mostreSeparadorDecimal();
+          else this.tela.mostre(Number(n));
+        }
+        this.valor1 = resultado;
+        break;
       }
+
       case Controle.SEPARADOR_DECIMAL: {
-        if (!this.posicaoDecimal) this.posicaoDecimal = this.listaDigitos.length;
+        if (!this.numero.posiçãoSeparadorDecimal) {
+          this.numero.posiçãoSeparadorDecimal = this.numero.digitos.length;
+          this.tela.mostreSeparadorDecimal();
+        }
       }
     }
   }
 
-  private transformaLista() {
-    const valor = this.listaDigitos.join("");
-    if (this.posicaoDecimal) {
-      const decimais = this.listaDigitos.length - this.posicaoDecimal // [1234] Ponto decimal no 2, conta é o tamanho da lista - menos a posição do ponto decimal, logo o número é o numero da lista é divido por 10 ^^ número de casas decimais
-      return Number(valor) / (10**decimais)
-    } 
-    return Number(valor);
-  }
+  // private transformaLista() {
+  //   const valor = this.numero.digitos.join("");
+  //   if (this.numero.posiçãoSeparadorDecimal) {
+  //     const decimais = this.numero.digitos.length - this.numero.posiçãoSeparadorDecimal; // [1234] Ponto decimal no 2, conta é o tamanho da lista - menos a posição do ponto decimal, logo o número é o numero da lista é divido por 10 ^^ número de casas decimais
+  //     return Number(valor) / 10 ** decimais;
+  //   }
+  //   return Number(valor);
+  // }
 
   private transformaOperacao() {
     switch (this.operacao) {
@@ -83,8 +107,8 @@ export default class CpuB1 implements Cpu {
     }
   }
 
-  private calculaResultado(): Number {
-    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.transformaLista()}`);
+  private calculaResultado(): number {
+    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
   }
 
   private tratarAtivacaoLimpezaErro() {

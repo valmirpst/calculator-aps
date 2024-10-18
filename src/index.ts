@@ -26,6 +26,11 @@ const calculadora = new Calculadora(tela, cpu, teclado);
   await sleep();
   calculadora.teclado.digiteDigito(Digito.DOIS);
   await sleep();
+  calculadora.teclado.digiteOperacao(Operação.SOMA);
+  await sleep();
+  calculadora.teclado.digiteDigito(Digito.NOVE);
+  calculadora.teclado.digiteDigito(Digito.NOVE);
+  await sleep();
   calculadora.teclado.digiteControle(Controle.IGUAL);
 })();
 
