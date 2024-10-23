@@ -43,7 +43,7 @@ export default class CpuB1 implements Cpu {
   }
 
   recebaOperacao(operacao: Operação) {
-    if (this.numero.digitos.length && this.operacao) {
+    if ((this.numero.digitos.length && this.operacao) || this.valor1) {
       this.recebaControle(Controle.IGUAL);
     } else this.valor1 = this.numero.paraNumero();
 
@@ -69,6 +69,7 @@ export default class CpuB1 implements Cpu {
           else this.tela.mostre(Number(n));
         }
         this.valor1 = resultado;
+        this.numero.limpe();
         break;
       }
 
@@ -111,11 +112,10 @@ export default class CpuB1 implements Cpu {
     return eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
   }
 
-  private tratarAtivacaoLimpezaErro() {
-    this.tela.limpe();
-  }
+  private tratarAtivacaoLimpezaErro() {}
 
   reinicie(): void {
+    this.numero.limpe();
     this.tela.limpe();
     this.tela.mostre(Digito.ZERO);
   }
