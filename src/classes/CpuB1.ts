@@ -1,4 +1,4 @@
-import { Controle, Cpu, Digito, Operação, Tela } from "../calculadora";
+import { Controle, Cpu, Digito, Operação, Sinal, Tela } from "../calculadora";
 import NumeroB1 from "./NumeroB1";
 
 export default class CpuB1 implements Cpu {
@@ -6,90 +6,265 @@ export default class CpuB1 implements Cpu {
   valor1: number | null;
   operacao: Operação | null;
   numero: NumeroB1;
-  // listaDigitos: Digito[];
-  // posicaoDecimal: number | null;
+  memoria: number;
 
   constructor(tela: Tela) {
     this.definaTela(tela);
     this.valor1 = null;
     this.operacao = null;
     this.numero = new NumeroB1();
-    // this.listaDigitos = [0];
-    // this.posicaoDecimal = null;
+    this.memoria = 0;
   }
 
   recebaDigito(digito: Digito) {
-    // retira o "0" se for o primeiro digito;
-    // armazena o digito;
-    // exibe os digitos na tela.
-
     if (
-      this.numero.digitos.length === 1 &&
-      this.numero.digitos[0] === 0 &&
-      !this.numero.posiçãoSeparadorDecimal
+      (this.numero.digitos.length === 1 &&
+        this.numero.digitos[0] === 0 &&
+        !this.numero.posiçãoSeparadorDecimal) ||
+      this.numero.digitos.length === 0
     ) {
-      this.numero.digitos.pop();
+      this.numero.limpe();
       this.tela.limpe();
     }
 
     if (this.valor1 && this.numero.digitos.length === 0) this.tela.limpe();
     this.numero.digitos.push(digito);
     this.tela.mostre(digito);
-    // this.tela.limpe();
-    // this.numero.digitos.forEach((digitoAtual, index) => {
-    //   if (index === this.numero.posiçãoSeparadorDecimal) this.tela.mostreSeparadorDecimal();
-    //   this.tela.mostre(digitoAtual);
-    // });
   }
 
   recebaOperacao(operacao: Operação) {
-    if ((this.numero.digitos.length && this.operacao) || this.valor1) {
-      this.recebaControle(Controle.IGUAL);
-    } else this.valor1 = this.numero.paraNumero();
+    this.piscarDisplay();
 
-    this.operacao = operacao;
-    this.numero.limpe();
-    console.log(this.transformaOperacao());
+    switch (operacao) {
+      case Operação.RAIZ_QUADRADA: {
+        let res = -1;
+        if (this.numero.paraNumero()) {
+          res = this.numero.paraNumero() ** 0.5;
+          this.numero.limpe();
+          this.tela.limpe();
+
+          res
+            .toString()
+            .split("")
+            .forEach((v, i) => {
+              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+              if (v === ".") {
+                this.tela.mostreSeparadorDecimal();
+                this.numero.posiçãoSeparadorDecimal = i;
+              }
+              if (Number(v) || v === "0") {
+                this.tela.mostre(Number(v));
+                this.numero.digitos.push(Number(v));
+              }
+            });
+        } else if (this.valor1 !== null) {
+          res = this.valor1 ** 0.5;
+          this.valor1 = res;
+          this.tela.limpe();
+
+          res
+            .toString()
+            .split("")
+            .forEach((v) => {
+              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+              if (v === ".") {
+                this.tela.mostreSeparadorDecimal();
+              }
+              if (Number(v) || v === "0") {
+                this.tela.mostre(Number(v));
+              }
+            });
+        }
+        break;
+      }
+
+      case Operação.PERCENTUAL: {
+        if (this.operacao === null || this.valor1 === null) {
+          this.reinicie();
+          return;
+        }
+
+        let res: number | null = null;
+        switch (this.operacao) {
+          case Operação.SOMA: {
+            res = this.valor1 + this.valor1 * (this.numero.paraNumero() / 100);
+            break;
+          }
+          case Operação.SUBTRAÇÃO: {
+            res = this.valor1 - this.valor1 * (this.numero.paraNumero() / 100);
+            break;
+          }
+          case Operação.DIVISÃO: {
+            res = this.valor1 / (this.numero.paraNumero() / 100);
+            break;
+          }
+          case Operação.MULTIPLICAÇÃO: {
+            res = this.valor1 * (this.numero.paraNumero() / 100);
+            break;
+          }
+        }
+        this.tela.limpe();
+        this.valor1 = null;
+        this.numero.limpe();
+
+        if (res)
+          res
+            .toString()
+            .split("")
+            .forEach((v, i) => {
+              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+              if (v === ".") {
+                this.tela.mostreSeparadorDecimal();
+                this.numero.posiçãoSeparadorDecimal = i;
+              }
+              if (Number(v) || v === "0") {
+                this.tela.mostre(Number(v));
+                this.numero.digitos.push(Number(v));
+              }
+            });
+
+        break;
+      }
+
+      default: {
+        if (!this.valor1) {
+          this.valor1 = this.numero.paraNumero();
+          this.numero.limpe();
+        } else if (this.operacao !== null && this.numero.paraNumero() !== 0) {
+          this.recebaControle(Controle.IGUAL);
+        }
+
+        this.operacao = operacao;
+      }
+    }
   }
 
   recebaControle(controle: Controle) {
     switch (controle) {
       case Controle.ATIVAÇÃO_LIMPEZA_ERRO: {
-        this.tratarAtivacaoLimpezaErro();
+        this.reinicie();
         break;
       }
 
       case Controle.IGUAL: {
-        const resultado = this.calculaResultado();
-        console.log("resultado:", resultado);
+        if (this.operacao === null) return;
 
-        this.tela.limpe();
-        for (let n of resultado.toString()) {
-          if (n === ".") this.tela.mostreSeparadorDecimal();
-          else this.tela.mostre(Number(n));
-        }
-        this.valor1 = resultado;
+        const res = this.calculaResultado();
+        this.valor1 = res;
         this.numero.limpe();
+        this.tela.limpe();
+        this.operacao = null;
+
+        res
+          .toString()
+          .split("")
+          .forEach((value, i) => {
+            if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+            if (value === ".") this.tela.mostreSeparadorDecimal();
+            if (Number(value) || value === "0") this.tela.mostre(Number(value));
+          });
+
         break;
       }
 
       case Controle.SEPARADOR_DECIMAL: {
-        if (!this.numero.posiçãoSeparadorDecimal) {
+        if (this.numero.posiçãoSeparadorDecimal === null) {
           this.numero.posiçãoSeparadorDecimal = this.numero.digitos.length;
           this.tela.mostreSeparadorDecimal();
         }
+        break;
+      }
+
+      case Controle.DESATIVAÇÃO: {
+        break;
+      }
+
+      case Controle.MEMÓRIA_SOMA: {
+        if (this.numero.paraNumero() !== 0) {
+          if (this.valor1 !== null && this.operacao !== null && this.numero.paraNumero()) {
+            const res = this.calculaResultado();
+            this.memoria += res;
+            this.valor1 = res;
+
+            this.tela.limpe();
+            res
+              .toString()
+              .split("")
+              .forEach((value, i) => {
+                if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+                if (value === ".") this.tela.mostreSeparadorDecimal();
+                if (Number(value) || value === "0") this.tela.mostre(Number(value));
+              });
+          } else {
+            this.memoria += this.numero.paraNumero();
+            this.valor1 = this.numero.paraNumero();
+          }
+
+          this.numero.limpe();
+        } else if (this.valor1 !== null) {
+          this.memoria += this.valor1;
+        }
+
+        if (this.memoria !== 0) this.tela.mostreMemoria();
+        break;
+      }
+
+      case Controle.MEMÓRIA_SUBTRAÇÃO: {
+        if (this.numero.paraNumero() !== 0) {
+          if (this.valor1 !== null && this.operacao !== null && this.numero.paraNumero()) {
+            const res = this.calculaResultado();
+            this.memoria -= res;
+            this.valor1 = res;
+
+            this.tela.limpe();
+            res
+              .toString()
+              .split("")
+              .forEach((value, i) => {
+                if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+                if (value === ".") this.tela.mostreSeparadorDecimal();
+                if (Number(value) || value === "0") this.tela.mostre(Number(value));
+              });
+          } else {
+            this.memoria -= this.numero.paraNumero();
+            this.valor1 = this.numero.paraNumero();
+          }
+
+          this.numero.limpe();
+        } else if (this.valor1 !== null) {
+          this.memoria -= this.valor1;
+        }
+
+        if (this.memoria !== 0) this.tela.mostreMemoria();
+        break;
+      }
+
+      case Controle.MEMÓRIA_LEITURA_LIMPEZA: {
+        this.numero.limpe();
+        this.tela.limpe();
+
+        this.memoria
+          .toString()
+          .split("")
+          .forEach((v, i) => {
+            if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+            if (v === ".") {
+              this.tela.mostreSeparadorDecimal();
+              this.numero.posiçãoSeparadorDecimal = i;
+            }
+            if (Number(v) || v === "0") {
+              this.tela.mostre(Number(v));
+              this.numero.digitos.push(Number(v));
+            }
+          });
+        break;
       }
     }
   }
 
-  // private transformaLista() {
-  //   const valor = this.numero.digitos.join("");
-  //   if (this.numero.posiçãoSeparadorDecimal) {
-  //     const decimais = this.numero.digitos.length - this.numero.posiçãoSeparadorDecimal; // [1234] Ponto decimal no 2, conta é o tamanho da lista - menos a posição do ponto decimal, logo o número é o numero da lista é divido por 10 ^^ número de casas decimais
-  //     return Number(valor) / 10 ** decimais;
-  //   }
-  //   return Number(valor);
-  // }
+  private calculaResultado(): number {
+    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
+  }
 
   private transformaOperacao() {
     switch (this.operacao) {
@@ -101,23 +276,16 @@ export default class CpuB1 implements Cpu {
         return "*";
       case Operação.DIVISÃO:
         return "/";
-      case Operação.RAIZ_QUADRADA:
-        return "raiz";
-      case Operação.PERCENTUAL:
-        return "percentual";
     }
   }
 
-  private calculaResultado(): number {
-    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
-  }
-
-  private tratarAtivacaoLimpezaErro() {}
-
   reinicie(): void {
-    this.numero.limpe();
+    this.piscarDisplay();
     this.tela.limpe();
-    this.tela.mostre(Digito.ZERO);
+    this.tela.mostre(0);
+    this.numero.limpe();
+    this.valor1 = null;
+    this.operacao = null;
   }
 
   definaTela(tela: Tela): void {
@@ -126,5 +294,15 @@ export default class CpuB1 implements Cpu {
 
   obtenhaTela(): Tela {
     return this.tela;
+  }
+
+  private piscarDisplay() {
+    const telaProvisoria = document.getElementById("tela");
+    if (telaProvisoria) {
+      telaProvisoria.style.opacity = "0";
+      setTimeout(() => {
+        telaProvisoria.style.opacity = "1";
+      }, 100);
+    }
   }
 }

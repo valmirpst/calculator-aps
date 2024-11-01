@@ -27,9 +27,9 @@
         <div class="display-calculadora">
           <div class="display-interno">
             <div id="campoInformacao" class="mensagens-display">
-              <div>M</div>
-              <div>-</div>
-              <div>E</div>
+              <div id="info_memoria"></div>
+              <div></div>
+              <div></div>
             </div>
             <div id="tela" class="digitos-display">0</div>
           </div>
@@ -37,7 +37,7 @@
       </section>
 
       <section id="teclado" class="corpoCalculadora">
-        <button class="botao botao-vermelho botao-once">
+        <button value="on_ce" class="botao botao-vermelho botao-once">
           <span>ON</span>
           <div class="dash"></div>
           <span>CE</span>
@@ -45,32 +45,36 @@
 
         <div class="botao-auxiliar">
           <span>MRC</span>
-          <button class="botao botao-laranja"></button>
+          <button value="memoria_read_clear" id="memoria_read_clear" class="botao botao-laranja"></button>
         </div>
 
         <div class="botao-auxiliar">
           <span>M-</span>
-          <button class="botao botao-laranja"></button>
+          <button value="memoria_menos" id="memoria_menos" class="botao botao-laranja"></button>
         </div>
         <div class="botao-auxiliar">
           <span>M+</span>
-          <button class="botao botao-laranja"></button>
+          <button value="memoria_mais" id="memoria_mais" class="botao botao-laranja"></button>
         </div>
 
         <button class="botao">OFF</button>
-        <button class="botao">raiz</button>
-        <button class="botao">%</button>
-        <button class="botao">div</button>
+        <button value="square_root" class="botao square-root">
+          <img src="./src/assets/images/square-root.svg" alt="Square Root">
+        </button>
+        <button value="percentage" class="botao"><img src="./src/assets/images/percentage.svg"
+            alt="Percentage"></button>
+        <button value="division" class="botao"><img src="./src/assets/images/division.svg" alt="Division"></button>
 
         <button class="botao">7</button>
         <button class="botao">8</button>
         <button class="botao">9</button>
-        <button class="botao">x</button>
+        <button value="multiplication" class="botao"><img src="./src/assets/images/multiplication.svg"
+            alt="Multiplication"></button>
 
         <button class="botao">4</button>
         <button class="botao">5</button>
         <button class="botao">6</button>
-        <button class="botao">-</button>
+        <button value="subtracao" class="botao">-</button>
 
         <button class="botao">1</button>
         <button class="botao">2</button>
@@ -78,7 +82,7 @@
         <button class="botao botao-mais">+</button>
 
         <button class="botao">0</button>
-        <button class="botao">.</button>
+        <button value="separador_decimal" class="botao">.</button>
         <button class="botao">=</button>
       </section>
     </main>

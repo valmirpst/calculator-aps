@@ -22,6 +22,19 @@
   box-shadow: 1px 1px 2px 1px var(--preto);
 }
 
+.botao * {
+  pointer-events: none;
+}
+
+.botao img {
+  width: 24px;
+  pointer-events: none;
+}
+
+.botao img.square-root {
+  width: 30px;
+}
+
 .botao-vermelho {
   background-color: var(--vermelho);
   color: var(--branco);

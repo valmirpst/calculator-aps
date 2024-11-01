@@ -9,6 +9,7 @@
 }
 
 .titulo-calculadora {
+  color: var(--claro);
   display: flex;
   justify-content: space-between;
   gap: 2rem;
@@ -62,6 +63,8 @@
 }
 
 .mensagens-display {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   color: var(--azul);
 }
 
