@@ -30,6 +30,11 @@ document.getElementById("memoria_read_clear")?.addEventListener("click", (e) => 
 tecladoElement?.addEventListener("click", (e) => {
   if (e.target instanceof HTMLButtonElement) {
     switch (e.target.value) {
+      case "botao_mais": {
+        calculadora.teclado.digiteOperacao(Operação.SOMA);
+        break;
+      }
+
       case "square_root": {
         calculadora.teclado.digiteOperacao(Operação.RAIZ_QUADRADA);
         break;
@@ -62,6 +67,11 @@ tecladoElement?.addEventListener("click", (e) => {
 
       case "separador_decimal": {
         calculadora.teclado.digiteControle(Controle.SEPARADOR_DECIMAL);
+        break;
+      }
+
+      case "botao_igual": {
+        calculadora.teclado.digiteControle(Controle.IGUAL);
         break;
       }
     }
@@ -105,14 +115,6 @@ tecladoElement?.addEventListener("click", (e) => {
       }
       case "9": {
         calculadora.teclado.digiteDigito(Digito.NOVE);
-        break;
-      }
-      case "+": {
-        calculadora.teclado.digiteOperacao(Operação.SOMA);
-        break;
-      }
-      case "=": {
-        calculadora.teclado.digiteControle(Controle.IGUAL);
         break;
       }
     }

@@ -46,15 +46,16 @@ export default class CpuB1 implements Cpu {
           res
             .toString()
             .split("")
-            .forEach((v, i) => {
-              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
-              if (v === ".") {
+            .forEach((value, i) => {
+              this.tratarSinal(res.toString());
+              if (value === "-") return;
+              if (value === ".") {
                 this.tela.mostreSeparadorDecimal();
                 this.numero.posiçãoSeparadorDecimal = i;
               }
-              if (Number(v) || v === "0") {
-                this.tela.mostre(Number(v));
-                this.numero.digitos.push(Number(v));
+              if (Number(value) || value === "0") {
+                this.tela.mostre(Number(value));
+                this.numero.digitos.push(Number(value));
               }
             });
         } else if (this.valor1 !== null) {
@@ -65,13 +66,14 @@ export default class CpuB1 implements Cpu {
           res
             .toString()
             .split("")
-            .forEach((v) => {
-              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
-              if (v === ".") {
+            .forEach((value) => {
+              this.tratarSinal(res.toString());
+              if (value === "-") return;
+              if (value === ".") {
                 this.tela.mostreSeparadorDecimal();
               }
-              if (Number(v) || v === "0") {
-                this.tela.mostre(Number(v));
+              if (Number(value) || value === "0") {
+                this.tela.mostre(Number(value));
               }
             });
         }
@@ -111,15 +113,16 @@ export default class CpuB1 implements Cpu {
           res
             .toString()
             .split("")
-            .forEach((v, i) => {
-              if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
-              if (v === ".") {
+            .forEach((value, i) => {
+              this.tratarSinal(res.toString());
+              if (value === "-") return;
+              if (value === ".") {
                 this.tela.mostreSeparadorDecimal();
                 this.numero.posiçãoSeparadorDecimal = i;
               }
-              if (Number(v) || v === "0") {
-                this.tela.mostre(Number(v));
-                this.numero.digitos.push(Number(v));
+              if (Number(value) || value === "0") {
+                this.tela.mostre(Number(value));
+                this.numero.digitos.push(Number(value));
               }
             });
 
@@ -148,8 +151,11 @@ export default class CpuB1 implements Cpu {
 
       case Controle.IGUAL: {
         if (this.operacao === null) return;
+        if (this.valor1 === null || !this.numero.digitos.length) return;
 
+        this.piscarDisplay();
         const res = this.calculaResultado();
+        console.log(res);
         this.valor1 = res;
         this.numero.limpe();
         this.tela.limpe();
@@ -159,7 +165,8 @@ export default class CpuB1 implements Cpu {
           .toString()
           .split("")
           .forEach((value, i) => {
-            if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+            this.tratarSinal(res.toString());
+            if (value === "-") return;
             if (value === ".") this.tela.mostreSeparadorDecimal();
             if (Number(value) || value === "0") this.tela.mostre(Number(value));
           });
@@ -191,7 +198,8 @@ export default class CpuB1 implements Cpu {
               .toString()
               .split("")
               .forEach((value, i) => {
-                if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+                this.tratarSinal(res.toString());
+                if (value === "-") return;
                 if (value === ".") this.tela.mostreSeparadorDecimal();
                 if (Number(value) || value === "0") this.tela.mostre(Number(value));
               });
@@ -221,7 +229,8 @@ export default class CpuB1 implements Cpu {
               .toString()
               .split("")
               .forEach((value, i) => {
-                if (value === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
+                this.tratarSinal(res.toString());
+                if (value === "-") return;
                 if (value === ".") this.tela.mostreSeparadorDecimal();
                 if (Number(value) || value === "0") this.tela.mostre(Number(value));
               });
@@ -246,15 +255,16 @@ export default class CpuB1 implements Cpu {
         this.memoria
           .toString()
           .split("")
-          .forEach((v, i) => {
-            if (v === "-") this.tela.mostreSinal(Sinal.NEGATIVO);
-            if (v === ".") {
+          .forEach((value, i) => {
+            this.tratarSinal(this.memoria.toString());
+            if (value === "-") return;
+            if (value === ".") {
               this.tela.mostreSeparadorDecimal();
               this.numero.posiçãoSeparadorDecimal = i;
             }
-            if (Number(v) || v === "0") {
-              this.tela.mostre(Number(v));
-              this.numero.digitos.push(Number(v));
+            if (Number(value) || value === "0") {
+              this.tela.mostre(Number(value));
+              this.numero.digitos.push(Number(value));
             }
           });
         break;
@@ -294,6 +304,14 @@ export default class CpuB1 implements Cpu {
 
   obtenhaTela(): Tela {
     return this.tela;
+  }
+
+  private tratarSinal(res: string) {
+    if (res.toString().includes("-")) {
+      this.tela.mostreSinal(Sinal.NEGATIVO);
+    } else {
+      this.tela.mostreSinal(Sinal.POSITIVO);
+    }
   }
 
   private piscarDisplay() {

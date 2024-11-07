@@ -28,7 +28,9 @@
           <div class="display-interno">
             <div id="campoInformacao" class="mensagens-display">
               <div id="info_memoria"></div>
-              <div></div>
+              <div id="sinal">
+                <div class="minus-element"></div>
+              </div>
               <div></div>
             </div>
             <div id="tela" class="digitos-display">0</div>
@@ -74,16 +76,27 @@
         <button class="botao">4</button>
         <button class="botao">5</button>
         <button class="botao">6</button>
-        <button value="subtracao" class="botao">-</button>
+        <button value="subtracao" class="botao">
+          <div class="minus-element"></div>
+        </button>
 
         <button class="botao">1</button>
         <button class="botao">2</button>
         <button class="botao">3</button>
-        <button class="botao botao-mais">+</button>
+        <button value="botao_mais" class="botao botao-mais"><svg data-img="true" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 18" width="24" height="24">
+            <title>plus</title>
+            <path data-img="true" fill="var(--branco)" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg></button>
 
         <button class="botao">0</button>
-        <button value="separador_decimal" class="botao">.</button>
-        <button class="botao">=</button>
+        <button value="separador_decimal" class="botao">
+          <div class="dot"></div>
+        </button>
+        <button value="botao_igual" class="botao equal">
+          <div class="minus-element"></div>
+          <div class="minus-element"></div>
+        </button>
       </section>
     </main>
   </div>
