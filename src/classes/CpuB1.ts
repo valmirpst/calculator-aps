@@ -7,13 +7,14 @@ export default class CpuB1 implements Cpu {
   operacao: Operação | null;
   numero: NumeroB1;
   memoria: number;
+  limparMemoria: boolean;
 
-  constructor(tela: Tela) {
-    this.definaTela(tela);
+  constructor() {
     this.valor1 = null;
     this.operacao = null;
     this.numero = new NumeroB1();
     this.memoria = 0;
+    this.limparMemoria = false;
   }
 
   recebaDigito(digito: Digito) {
@@ -30,9 +31,11 @@ export default class CpuB1 implements Cpu {
     if (this.valor1 && this.numero.digitos.length === 0) this.tela.limpe();
     this.numero.digitos.push(digito);
     this.tela.mostre(digito);
+    this.limparMemoria = false;
   }
 
   recebaOperacao(operacao: Operação) {
+    this.limparMemoria = false;
     this.piscarDisplay();
 
     switch (operacao) {
@@ -43,21 +46,7 @@ export default class CpuB1 implements Cpu {
           this.numero.limpe();
           this.tela.limpe();
 
-          res
-            .toString()
-            .split("")
-            .forEach((value, i) => {
-              this.tratarSinal(res.toString());
-              if (value === "-") return;
-              if (value === ".") {
-                this.tela.mostreSeparadorDecimal();
-                this.numero.posiçãoSeparadorDecimal = i;
-              }
-              if (Number(value) || value === "0") {
-                this.tela.mostre(Number(value));
-                this.numero.digitos.push(Number(value));
-              }
-            });
+          this.tratarResultado(res.toString());
         } else if (this.valor1 !== null) {
           res = this.valor1 ** 0.5;
           this.valor1 = res;
@@ -68,7 +57,7 @@ export default class CpuB1 implements Cpu {
             .split("")
             .forEach((value) => {
               this.tratarSinal(res.toString());
-              if (value === "-") return;
+              if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
               if (value === ".") {
                 this.tela.mostreSeparadorDecimal();
               }
@@ -85,47 +74,26 @@ export default class CpuB1 implements Cpu {
           this.reinicie();
           return;
         }
-
         let res: number | null = null;
         switch (this.operacao) {
-          case Operação.SOMA: {
+          case Operação.SOMA:
             res = this.valor1 + this.valor1 * (this.numero.paraNumero() / 100);
             break;
-          }
-          case Operação.SUBTRAÇÃO: {
+          case Operação.SUBTRAÇÃO:
             res = this.valor1 - this.valor1 * (this.numero.paraNumero() / 100);
             break;
-          }
-          case Operação.DIVISÃO: {
+          case Operação.DIVISÃO:
             res = this.valor1 / (this.numero.paraNumero() / 100);
             break;
-          }
-          case Operação.MULTIPLICAÇÃO: {
+          case Operação.MULTIPLICAÇÃO:
             res = this.valor1 * (this.numero.paraNumero() / 100);
             break;
-          }
         }
         this.tela.limpe();
         this.valor1 = null;
         this.numero.limpe();
 
-        if (res)
-          res
-            .toString()
-            .split("")
-            .forEach((value, i) => {
-              this.tratarSinal(res.toString());
-              if (value === "-") return;
-              if (value === ".") {
-                this.tela.mostreSeparadorDecimal();
-                this.numero.posiçãoSeparadorDecimal = i;
-              }
-              if (Number(value) || value === "0") {
-                this.tela.mostre(Number(value));
-                this.numero.digitos.push(Number(value));
-              }
-            });
-
+        if (res) this.tratarResultado(res.toString());
         break;
       }
 
@@ -155,7 +123,6 @@ export default class CpuB1 implements Cpu {
 
         this.piscarDisplay();
         const res = this.calculaResultado();
-        console.log(res);
         this.valor1 = res;
         this.numero.limpe();
         this.tela.limpe();
@@ -166,7 +133,7 @@ export default class CpuB1 implements Cpu {
           .split("")
           .forEach((value, i) => {
             this.tratarSinal(res.toString());
-            if (value === "-") return;
+            if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
             if (value === ".") this.tela.mostreSeparadorDecimal();
             if (Number(value) || value === "0") this.tela.mostre(Number(value));
           });
@@ -199,7 +166,7 @@ export default class CpuB1 implements Cpu {
               .split("")
               .forEach((value, i) => {
                 this.tratarSinal(res.toString());
-                if (value === "-") return;
+                if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
                 if (value === ".") this.tela.mostreSeparadorDecimal();
                 if (Number(value) || value === "0") this.tela.mostre(Number(value));
               });
@@ -230,7 +197,7 @@ export default class CpuB1 implements Cpu {
               .split("")
               .forEach((value, i) => {
                 this.tratarSinal(res.toString());
-                if (value === "-") return;
+                if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
                 if (value === ".") this.tela.mostreSeparadorDecimal();
                 if (Number(value) || value === "0") this.tela.mostre(Number(value));
               });
@@ -249,6 +216,16 @@ export default class CpuB1 implements Cpu {
       }
 
       case Controle.MEMÓRIA_LEITURA_LIMPEZA: {
+        if (this.limparMemoria) {
+          this.memoria = 0;
+          this.limparMemoria = false;
+          console.log(`limpa`);
+          return;
+        }
+
+        if (this.memoria === 0) return;
+
+        this.limparMemoria = true;
         this.numero.limpe();
         this.tela.limpe();
 
@@ -257,7 +234,7 @@ export default class CpuB1 implements Cpu {
           .split("")
           .forEach((value, i) => {
             this.tratarSinal(this.memoria.toString());
-            if (value === "-") return;
+            if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
             if (value === ".") {
               this.tela.mostreSeparadorDecimal();
               this.numero.posiçãoSeparadorDecimal = i;
@@ -322,5 +299,20 @@ export default class CpuB1 implements Cpu {
         telaProvisoria.style.opacity = "1";
       }, 100);
     }
+  }
+
+  private tratarResultado(res: string) {
+    res.split("").forEach((value, i) => {
+      this.tratarSinal(res.toString());
+      if (value === "-") this.numero.sinal = Sinal.NEGATIVO;
+      if (value === ".") {
+        this.tela.mostreSeparadorDecimal();
+        this.numero.posiçãoSeparadorDecimal = i;
+      }
+      if (Number(value) || value === "0") {
+        this.tela.mostre(Number(value));
+        this.numero.digitos.push(Number(value));
+      }
+    });
   }
 }
