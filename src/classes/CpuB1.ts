@@ -219,7 +219,8 @@ export default class CpuB1 implements Cpu {
         if (this.limparMemoria) {
           this.memoria = 0;
           this.limparMemoria = false;
-          console.log(`limpa`);
+          const memoriaProvisoria = document.getElementById("info_memoria");
+          if (memoriaProvisoria) memoriaProvisoria.innerHTML = "";
           return;
         }
 
@@ -250,7 +251,16 @@ export default class CpuB1 implements Cpu {
   }
 
   private calculaResultado(): number {
-    return eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
+    try {
+      if (this.transformaOperacao() === "/" && this.numero.paraNumero() === 0) throw new Error();
+      const resultado = eval(
+        `${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`
+      );
+      return resultado;
+    } catch (error) {
+      this.tela.mostreErro();
+      return 0;
+    }
   }
 
   private transformaOperacao() {
@@ -273,6 +283,8 @@ export default class CpuB1 implements Cpu {
     this.numero.limpe();
     this.valor1 = null;
     this.operacao = null;
+    const error = document.getElementById("error");
+    if (error) error.innerHTML = "";
   }
 
   definaTela(tela: Tela): void {
