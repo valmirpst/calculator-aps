@@ -36,7 +36,7 @@ export default class CpuB1 implements Cpu {
 
   recebaOperacao(operacao: Operação) {
     this.limparMemoria = false;
-    this.piscarDisplay();
+    // this.piscarDisplay();
 
     switch (operacao) {
       case Operação.RAIZ_QUADRADA: {
@@ -121,7 +121,7 @@ export default class CpuB1 implements Cpu {
         if (this.operacao === null) return;
         if (this.valor1 === null || !this.numero.digitos.length) return;
 
-        this.piscarDisplay();
+        // this.piscarDisplay();
         const res = this.calculaResultado();
         this.valor1 = res;
         this.numero.limpe();
@@ -277,7 +277,7 @@ export default class CpuB1 implements Cpu {
   }
 
   reinicie(): void {
-    this.piscarDisplay();
+    // this.piscarDisplay();
     this.tela.limpe();
     this.tela.mostre(0);
     this.numero.limpe();
@@ -303,15 +303,15 @@ export default class CpuB1 implements Cpu {
     }
   }
 
-  private piscarDisplay() {
-    const telaProvisoria = document.getElementById("tela");
-    if (telaProvisoria) {
-      telaProvisoria.style.opacity = "0";
-      setTimeout(() => {
-        telaProvisoria.style.opacity = "1";
-      }, 100);
-    }
-  }
+  // private piscarDisplay() {
+  //   const telaProvisoria = document.getElementById("tela");
+  //   if (telaProvisoria) {
+  //     telaProvisoria.style.opacity = "0";
+  //     setTimeout(() => {
+  //       telaProvisoria.style.opacity = "1";
+  //     }, 100);
+  //   }
+  // }
 
   private tratarResultado(res: string) {
     res.split("").forEach((value, i) => {
