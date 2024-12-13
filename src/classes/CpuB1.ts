@@ -3,6 +3,7 @@ import NumeroB1 from "./NumeroB1";
 
 export default class CpuB1 implements Cpu {
   private tela!: Tela;
+  private ultimoControleIgual: Controle.IGUAL | null;
   valor1: number | null;
   operacao: Operação | null;
   numero: NumeroB1;
@@ -15,26 +16,29 @@ export default class CpuB1 implements Cpu {
     this.numero = new NumeroB1();
     this.memoria = 0;
     this.limparMemoria = false;
+    this.ultimoControleIgual = null;
   }
 
   recebaDigito(digito: Digito) {
+    this.ultimoControleIgual = null;
     if (
-      (this.numero.digitos.length === 1 &&
-        this.numero.digitos[0] === 0 &&
-        !this.numero.posiçãoSeparadorDecimal) ||
+      (this.numero.paraNumero() === 0 &&
+        !this.numero.posiçãoSeparadorDecimal &&
+        this.numero.sinal !== Sinal.NEGATIVO) ||
       this.numero.digitos.length === 0
     ) {
       this.numero.limpe();
       this.tela.limpe();
     }
 
-    if (this.valor1 && this.numero.digitos.length === 0) this.tela.limpe();
+    if (this.valor1 !== null && this.numero.digitos.length === 0) this.tela.limpe();
     this.numero.digitos.push(digito);
     this.tela.mostre(digito);
     this.limparMemoria = false;
   }
 
   recebaOperacao(operacao: Operação) {
+    this.ultimoControleIgual = null;
     this.limparMemoria = false;
     // this.piscarDisplay();
 
@@ -70,24 +74,26 @@ export default class CpuB1 implements Cpu {
       }
 
       case Operação.PERCENTUAL: {
-        if (this.operacao === null || this.valor1 === null) {
-          this.reinicie();
-          return;
-        }
         let res: number | null = null;
-        switch (this.operacao) {
-          case Operação.SOMA:
-            res = this.valor1 + this.valor1 * (this.numero.paraNumero() / 100);
-            break;
-          case Operação.SUBTRAÇÃO:
-            res = this.valor1 - this.valor1 * (this.numero.paraNumero() / 100);
-            break;
-          case Operação.DIVISÃO:
-            res = this.valor1 / (this.numero.paraNumero() / 100);
-            break;
-          case Operação.MULTIPLICAÇÃO:
-            res = this.valor1 * (this.numero.paraNumero() / 100);
-            break;
+
+        if (this.operacao === null || this.valor1 === null) {
+          res = this.numero.paraNumero() / 100;
+          // this.reinicie();
+        } else {
+          switch (this.operacao) {
+            case Operação.SOMA:
+              res = this.valor1 + this.valor1 * (this.numero.paraNumero() / 100);
+              break;
+            case Operação.SUBTRAÇÃO:
+              res = this.valor1 - this.valor1 * (this.numero.paraNumero() / 100);
+              break;
+            case Operação.DIVISÃO:
+              res = this.valor1 / (this.numero.paraNumero() / 100);
+              break;
+            case Operação.MULTIPLICAÇÃO:
+              res = this.valor1 * (this.numero.paraNumero() / 100);
+              break;
+          }
         }
         this.tela.limpe();
         this.valor1 = null;
@@ -98,10 +104,15 @@ export default class CpuB1 implements Cpu {
       }
 
       default: {
-        if (!this.valor1) {
+        if (this.valor1 === null && this.numero.paraNumero() === 0) {
+          this.valor1 = this.numero.paraNumero();
+          if (operacao === Operação.SUBTRAÇÃO) {
+            this.numero.sinal = Sinal.NEGATIVO;
+          }
+        } else if (this.valor1 === null) {
           this.valor1 = this.numero.paraNumero();
           this.numero.limpe();
-        } else if (this.operacao !== null && this.numero.paraNumero() !== 0) {
+        } else if (this.operacao !== null) {
           this.recebaControle(Controle.IGUAL);
         }
 
@@ -124,10 +135,12 @@ export default class CpuB1 implements Cpu {
         // this.piscarDisplay();
         const res = this.calculaResultado();
         this.valor1 = res;
-        this.numero.limpe();
         this.tela.limpe();
-        this.operacao = null;
-
+        if (this.ultimoControleIgual !== Controle.IGUAL) {
+          this.numero.limpe();
+          this.operacao = null;
+        }
+        this.ultimoControleIgual = Controle.IGUAL;
         res
           .toString()
           .split("")
@@ -252,10 +265,13 @@ export default class CpuB1 implements Cpu {
 
   private calculaResultado(): number {
     try {
+      let resultado;
       if (this.transformaOperacao() === "/" && this.numero.paraNumero() === 0) throw new Error();
-      const resultado = eval(
-        `${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`
-      );
+      if (this.numero.paraNumero() < 0 && this.operacao === Operação.SUBTRAÇÃO) {
+        resultado = eval(`${this.valor1} + ${this.numero.paraNumero()}`);
+      } else {
+        resultado = eval(`${this.valor1} ${this.transformaOperacao()} ${this.numero.paraNumero()}`);
+      }
       return resultado;
     } catch (error) {
       this.tela.mostreErro();
@@ -283,8 +299,8 @@ export default class CpuB1 implements Cpu {
     this.numero.limpe();
     this.valor1 = null;
     this.operacao = null;
-    const error = document.getElementById("error");
-    if (error) error.innerHTML = "";
+    // const error = document.getElementById("error");
+    // if (error) error.innerHTML = "";
   }
 
   definaTela(tela: Tela): void {

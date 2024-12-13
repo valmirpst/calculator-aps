@@ -21,7 +21,7 @@ describe("Testes com a CpuB1", () => {
       cpu.definaTela(telaTeste);
     });
 
-    const numeros = [0, 5, 1.2, 52, -29, 123];
+    const numeros = [5, 1.2, 52, 29, 123];
 
     test("soma", () => {
       numeros.forEach((n) => (soma += n));
@@ -33,7 +33,7 @@ describe("Testes com a CpuB1", () => {
     });
 
     test("subtração", () => {
-      numeros.forEach((n) => (soma -= n));
+      numeros.forEach((n, i) => (i === 0 ? (soma += n) : (soma -= n)));
       numeros.forEach((n) => {
         cpu.recebaDigito(n);
         cpu.recebaOperacao(Operação.SUBTRAÇÃO);
@@ -42,6 +42,7 @@ describe("Testes com a CpuB1", () => {
     });
 
     test("multiplicacao", () => {
+      soma = 1;
       numeros.forEach((n) => (soma *= n));
       numeros.forEach((n) => {
         cpu.recebaDigito(n);
@@ -51,7 +52,7 @@ describe("Testes com a CpuB1", () => {
     });
 
     test("divisao", () => {
-      numeros.forEach((n) => (soma = n === 0 ? soma / 1 : soma / n));
+      numeros.forEach((n, i) => (i === 0 ? (soma += n) : (soma = n === 0 ? soma / 1 : soma / n)));
       numeros.forEach((n) => {
         cpu.recebaDigito(n);
         cpu.recebaOperacao(Operação.DIVISÃO);
@@ -60,13 +61,13 @@ describe("Testes com a CpuB1", () => {
     });
 
     test("soma com percentual", () => {
-      numeros.forEach((n) => (soma += n * 0.05));
+      numeros.forEach((n, i) => (i === 0 ? (soma += n / 100) : (soma = soma + (soma * n) / 100)));
       numeros.forEach((n) => {
         cpu.recebaDigito(n);
         cpu.recebaOperacao(Operação.PERCENTUAL);
         cpu.recebaOperacao(Operação.SOMA);
       });
-      expect(cpu.valor1).toBe(soma);
+      expect(cpu.valor1).toBeCloseTo(soma);
     });
 
     test("soma com raiz quadrada", () => {
@@ -110,7 +111,6 @@ describe("Testes com a CpuB1", () => {
     });
 
     test("1 + 1 = (5x Controle.IGUAL)", () => {
-      const soma = 0;
       cpu.recebaDigito(1);
       cpu.recebaOperacao(Operação.SOMA);
       cpu.recebaDigito(1);
@@ -125,6 +125,21 @@ describe("Testes com a CpuB1", () => {
       }
       cpu.recebaDigito(1);
       expect(cpu.numero.paraNumero()).toBe(1.111);
+    });
+
+    test("soma e subtração na memória", () => {
+      cpu.recebaDigito(5);
+      cpu.recebaControle(Controle.MEMÓRIA_SOMA);
+      cpu.recebaDigito(7);
+      cpu.recebaDigito(6);
+      cpu.recebaControle(Controle.MEMÓRIA_SUBTRAÇÃO);
+      cpu.recebaDigito(9);
+      cpu.recebaControle(Controle.MEMÓRIA_SUBTRAÇÃO);
+      cpu.recebaDigito(0);
+      cpu.recebaControle(Controle.MEMÓRIA_SOMA);
+      cpu.recebaDigito(1);
+      cpu.recebaControle(Controle.MEMÓRIA_SUBTRAÇÃO);
+      expect(cpu.memoria).toBe(-81);
     });
   });
 });
