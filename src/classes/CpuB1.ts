@@ -167,7 +167,7 @@ export default class CpuB1 implements Cpu {
       }
 
       case Controle.MEMÓRIA_SOMA: {
-        if (this.numero.paraNumero() !== 0) {
+        if (this.numero.digitos.length) {
           if (this.valor1 !== null && this.operacao !== null && this.numero.paraNumero()) {
             const res = this.calculaResultado();
             this.memoria += res;
@@ -198,7 +198,7 @@ export default class CpuB1 implements Cpu {
       }
 
       case Controle.MEMÓRIA_SUBTRAÇÃO: {
-        if (this.numero.paraNumero() !== 0) {
+        if (this.numero.digitos.length) {
           if (this.valor1 !== null && this.operacao !== null && this.numero.paraNumero()) {
             const res = this.calculaResultado();
             this.memoria -= res;

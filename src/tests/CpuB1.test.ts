@@ -21,7 +21,7 @@ describe("Testes com a CpuB1", () => {
       cpu.definaTela(telaTeste);
     });
 
-    const numeros = [5, 1.2, 52, 29, 123];
+    const numeros = [5, 1.2521, 52, 29, 123];
 
     test("soma", () => {
       numeros.forEach((n) => (soma += n));
@@ -81,6 +81,8 @@ describe("Testes com a CpuB1", () => {
     });
   });
 
+  // ---------------------------------------- //
+
   describe("Testes de Digitos", () => {
     const digitos = [
       Digito.ZERO,
@@ -102,6 +104,8 @@ describe("Testes com a CpuB1", () => {
       });
     });
   });
+
+  // ---------------------------------------- //
 
   describe("Testes de Controle", () => {
     beforeEach(() => {
