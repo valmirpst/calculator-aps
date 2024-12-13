@@ -4,6 +4,7 @@ import NumeroB1 from "./NumeroB1";
 export default class CpuB1 implements Cpu {
   private tela!: Tela;
   private ultimoControleIgual: Controle.IGUAL | null;
+  private ultimoValor: number | null;
   valor1: number | null;
   operacao: Operação | null;
   numero: NumeroB1;
@@ -17,6 +18,7 @@ export default class CpuB1 implements Cpu {
     this.memoria = 0;
     this.limparMemoria = false;
     this.ultimoControleIgual = null;
+    this.ultimoValor = null;
   }
 
   recebaDigito(digito: Digito) {
@@ -112,7 +114,7 @@ export default class CpuB1 implements Cpu {
         } else if (this.valor1 === null) {
           this.valor1 = this.numero.paraNumero();
           this.numero.limpe();
-        } else if (this.operacao !== null) {
+        } else if (this.operacao !== null && this.numero.paraNumero() !== 0) {
           this.recebaControle(Controle.IGUAL);
         }
 
@@ -130,17 +132,33 @@ export default class CpuB1 implements Cpu {
 
       case Controle.IGUAL: {
         if (this.operacao === null) return;
-        if (this.valor1 === null || !this.numero.digitos.length) return;
+
+        let res: number;
+
+        if (this.ultimoValor !== null && this.ultimoControleIgual === Controle.IGUAL) {
+          console.log(this.valor1, this.ultimoValor, this.transformaOperacao());
+          res =
+            this.numero.paraNumero() < 0 && this.operacao === Operação.SUBTRAÇÃO
+              ? eval(`${this.valor1} + ${this.ultimoValor}`)
+              : eval(`${this.valor1} ${this.transformaOperacao()} ${this.ultimoValor}`);
+        } else {
+          res = this.calculaResultado();
+        }
+
+        console.log(res);
+
+        if (this.valor1 === null || (!this.numero.digitos.length && this.ultimoValor === null))
+          return;
 
         // this.piscarDisplay();
-        const res = this.calculaResultado();
         this.valor1 = res;
         this.tela.limpe();
         if (this.ultimoControleIgual !== Controle.IGUAL) {
+          this.ultimoControleIgual = Controle.IGUAL;
+          this.ultimoValor = this.numero.paraNumero();
           this.numero.limpe();
-          this.operacao = null;
+          // this.operacao = null;
         }
-        this.ultimoControleIgual = Controle.IGUAL;
         res
           .toString()
           .split("")
